@@ -1,8 +1,14 @@
 package com.apap.tugas1.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.apap.tugas1.model.InstansiModel;
+import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.repository.PegawaiDb;
 
@@ -29,6 +35,73 @@ public class PegawaiServiceImpl implements PegawaiService{
 		// TODO Auto-generated method stub
 		return pegawaiDb.findByNip(nip);
 	}
+
+	@Override
+	public List<PegawaiModel> getTuaMudaInstansi(InstansiModel instansi) {
+		// TODO Auto-generated method stub
+		return pegawaiDb.findByInstansiOrderByTanggalLahirAsc(instansi);
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByInstansiAndJabatan(InstansiModel instansi, JabatanModel jabatan) {
+		// TODO Auto-generated method stub
+		List<PegawaiModel> hasil = new ArrayList<>();
+		
+		for(PegawaiModel pegawai : pegawaiDb.findByInstansi(instansi)) {
+			if (pegawai.getListJabatan().contains(jabatan)) {
+				hasil.add(pegawai);
+			}
+		}
+		
+		return hasil;
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByInstansi(InstansiModel instansi) {
+		// TODO Auto-generated method stub
+		return pegawaiDb.findByInstansi(instansi);
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByProvinsiAndJabatan(Long provinsiId, JabatanModel jabatan) {
+		// TODO Auto-generated method stub
+		List<PegawaiModel> hasil = new ArrayList<>();
+		
+		for(PegawaiModel pegawai : this.getPegawaiByProvinsi(provinsiId)) {
+			if (pegawai.getListJabatan().contains(jabatan)) {
+				hasil.add(pegawai);
+			}
+		}
+		
+		return hasil;
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByProvinsi(Long provinsiId) {
+		// TODO Auto-generated method stub
+		List<PegawaiModel> hasil = new ArrayList<>();
+		
+		for(PegawaiModel pegawai : pegawaiDb.findAll()) {
+			if (pegawai.getInstansi().getProvinsi().getId() == provinsiId) {
+				hasil.add(pegawai);
+			}
+		}
+		
+		return hasil;
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByJabatan(JabatanModel jabatan) {
+		// TODO Auto-generated method stub
+		return pegawaiDb.findByListJabatan(jabatan);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
