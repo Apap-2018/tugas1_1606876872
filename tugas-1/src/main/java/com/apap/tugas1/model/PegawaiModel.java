@@ -139,7 +139,6 @@ public class PegawaiModel implements Serializable {
 		this.listJabatan = listJabatan;
 	}
 
-
 	
 	
 }

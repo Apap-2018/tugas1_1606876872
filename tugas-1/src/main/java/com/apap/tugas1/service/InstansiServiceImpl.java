@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.apap.tugas1.model.InstansiModel;
 import com.apap.tugas1.model.JabatanModel;
+import com.apap.tugas1.model.ProvinsiModel;
 import com.apap.tugas1.repository.InstansiDb;
 
 @Service
@@ -32,6 +33,12 @@ public class InstansiServiceImpl implements InstansiService{
 	@Override
 	public Optional<InstansiModel> getInstansiById(Long id) {
 		return instansiDb.findById(id);
+	}
+
+	@Override
+	public List<InstansiModel> getInstansiFromProvinsi(ProvinsiModel provinsi) {
+		// TODO Auto-generated method stub
+		return instansiDb.findByProvinsi(provinsi);
 	}
 	
 	
