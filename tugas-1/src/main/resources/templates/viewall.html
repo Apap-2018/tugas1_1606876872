@@ -40,7 +40,7 @@
 						<tr th:each="jabatan,iterationStatus : ${listJabatan}">
 							<td th:text="${jabatan.nama}"></td>
 							<td th:text="${jabatan.deskripsi}"></td>
-							<td th:text="${jabatan.listPegawai.size()}"></td>
+						<!-- 	<td th:text="${jabatan.listPegawai.size()}"></td> -->
 							<td th:text="${jabatan.gajiPokok}"></td>
 						</tr>
 					</tbody>

@@ -19,4 +19,6 @@ public interface PegawaiService {
 	List<PegawaiModel> getPegawaiByProvinsi(Long provinsiId);
 	List<PegawaiModel> getPegawaiByJabatan(JabatanModel jabatan);
 	List<PegawaiModel> getPegawaiByInstansiAndTanggalLahirAndTahunMasuk(InstansiModel instansi, Date tanggalLahir, String tahunMasuk);
+	void setNipPegawai(PegawaiModel pegawai);
+	
 }

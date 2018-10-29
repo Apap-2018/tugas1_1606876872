@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.apap.tugas1.model.JabatanModel;
+import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.repository.JabatanDb;
 
 
@@ -55,7 +56,8 @@ public class JabatanServiceImpl implements JabatanService{
 		// TODO Auto-generated method stub
 		return jabatanDb.findById(id);
 	}
-	
+
+
 	
 	
 	

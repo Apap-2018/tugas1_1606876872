@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.apap.tugas1.model.JabatanModel;
+import com.apap.tugas1.model.PegawaiModel;
 
 
 
@@ -14,4 +15,5 @@ public interface JabatanService {
 	List<JabatanModel> getAllJabatan();
 	void deleteJabatan (long id);
 	Optional<JabatanModel> getJabatanById(Long id);
+	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.apap.tugas1.model.JabatanModel;
+import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.service.InstansiService;
 import com.apap.tugas1.service.JabatanService;
 import com.apap.tugas1.service.PegawaiService;
@@ -60,6 +61,10 @@ public class JabatanController {
 	@RequestMapping(value = "/jabatan/view", method = RequestMethod.GET)
 	private String detailJabatan (@RequestParam("id") long id, Model model) {
 		JabatanModel jabatan = jabatanService.getJabatanDetailById(id);
+		List<PegawaiModel> pegawai = pegawaiService.getPegawaiByJabatan(jabatan);
+		int jlhPegawai = pegawai.size();
+		
+		model.addAttribute("jlhPegawai", jlhPegawai);
 		model.addAttribute("jabatan", jabatan);
 		return "viewJabatan";
 	}

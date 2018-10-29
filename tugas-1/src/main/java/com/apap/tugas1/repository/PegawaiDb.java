@@ -20,4 +20,5 @@ public interface PegawaiDb extends JpaRepository<PegawaiModel, Long> {
 	List<PegawaiModel> findByListJabatan(JabatanModel jabatan); //karena model pegawai gak punya jabatan, dia harus cari yg hub. ke jabatan. nah kan ketemu
 /*	listJabatan, ganti method aja tinggal. si JPA lgsg paham*/
 	List<PegawaiModel> findByInstansiAndTanggalLahirAndTahunMasuk(InstansiModel instansi, Date tanggalLahir, String tahunMasuk);
+	List<PegawaiModel> findByInstansiAndTanggalLahirAndTahunMasukOrderByNipAsc(InstansiModel instansi, Date tanggalLahir, String tahunMasuk);
 }

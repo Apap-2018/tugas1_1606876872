@@ -57,8 +57,28 @@ public class PegawaiController {
 	private String showDataPegawai(@RequestParam("nip") String nip, Model model) {
 		PegawaiModel pegawai = pegawaiService.getPegawaiDetailByNip(nip);
 		
-		double gajiPokokPegawai = pegawai.getListJabatan().get(0).getGajiPokok();
-		if(pegawai.getListJabatan().size() > 1) {
+		/*double gajiPokokPegawai = pegawai.getListJabatan().get(0).getGajiPokok();*/
+		if(pegawai != null) {
+			double gajiPokokPegawai = pegawai.getListJabatan().get(0).getGajiPokok();
+			if(pegawai.getListJabatan().size() > 1) {
+				for(int i=1 ; i< pegawai.getListJabatan().size(); i++) {
+					if(pegawai.getListJabatan().get(i).getGajiPokok() > gajiPokokPegawai) {
+						gajiPokokPegawai = pegawai.getListJabatan().get(i).getGajiPokok();
+					}
+				}
+			}
+			
+			double tunjangan = pegawai.getInstansi().getProvinsi().getPersentaseTunjangan() /100;
+			gajiPokokPegawai = gajiPokokPegawai + (tunjangan * gajiPokokPegawai);
+			String gaji = String.format ("%.0f", gajiPokokPegawai);
+			
+			model.addAttribute("gaji", gaji);
+			model.addAttribute("pegawai", pegawai);
+			return "show";
+		}else {
+			return "notShow";
+		}
+/*		if(pegawai.getListJabatan().size() > 1) {
 			for(int i=1 ; i< pegawai.getListJabatan().size(); i++) {
 				if(pegawai.getListJabatan().get(i).getGajiPokok() > gajiPokokPegawai) {
 					gajiPokokPegawai = pegawai.getListJabatan().get(i).getGajiPokok();
@@ -72,7 +92,7 @@ public class PegawaiController {
 		
 		model.addAttribute("gaji", gaji);
 		model.addAttribute("pegawai", pegawai);
-		return "show";
+		return "show";*/
 		
 	}
 	
@@ -153,7 +173,8 @@ public class PegawaiController {
 		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
 		
 		//default
-		List<InstansiModel> listInstansi = instansiService.getInstansiFromProvinsi(listProv.get(0));
+		/*List<InstansiModel> listInstansi = instansiService.getInstansiFromProvinsi(listProv.get(0));*/
+		List<InstansiModel> listInstansi = instansiService.getAllInstansi();
 		
 		PegawaiModel pegawai = new PegawaiModel();
 		pegawai.setListJabatan(new ArrayList<JabatanModel>());
@@ -165,7 +186,6 @@ public class PegawaiController {
 		model.addAttribute("listProvinsi", listProv);
 		return "addPegawai";
 	}
-	
 	
 	@RequestMapping(value="/pegawai/tambah", params={"addRow"}, method = RequestMethod.POST)
 	public String addRow(@ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, Model model) {
@@ -182,7 +202,7 @@ public class PegawaiController {
 	    model.addAttribute("pegawai", pegawai);
 	    return "addPegawai";
 	}
-	 
+	
 	@RequestMapping(value="/pegawai/tambah", params={"deleteRow"}, method = RequestMethod.POST)
 	public String deleteRow(@ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, HttpServletRequest req,Model model) {
 		
@@ -223,9 +243,12 @@ public class PegawaiController {
 		pegawai.setNip(nip);
 		
 		pegawaiService.addPegawai(pegawai);
-		model.addAttribute("pegawai",pegawai);
+		String msg = "Pegawai dengan NIP "+ nip +" berhasil ditambahkan";
+		model.addAttribute("message", msg);
 		return "addPegawaiSuccess";
 	}
+	
+
 	
 	/*UBAH PEGAWAI*/
 	@RequestMapping(value="/pegawai/ubah", method = RequestMethod.GET)
@@ -319,10 +342,12 @@ public class PegawaiController {
 		
 		pegawaiService.updatePegawai(oldNip, pegawai);
 		
-		model.addAttribute("pegawai", pegawai);
+		String msg = "Pegawai dengan NIP "+ newNip +" berhasil diubah";
+		model.addAttribute("message", msg);
 		return "addPegawaiSuccess";
 	}
-
+	
+	
 	
 
 }

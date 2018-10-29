@@ -118,6 +118,34 @@ public class PegawaiServiceImpl implements PegawaiService{
 			pegawaiDb.save(updatePegawai);
 		
 	}
+
+	@Override
+	public void setNipPegawai(PegawaiModel pegawai) {
+		// TODO Auto-generated method stub
+
+		String nipTglLahir = "";
+		
+		Date tglLahir = pegawai.getTanggalLahir();
+		String[] tanggalLahir = (String.valueOf(tglLahir).split("-"));
+		for (int i = 0; i < tanggalLahir.length; i++) {
+			nipTglLahir = tanggalLahir[i].substring(tanggalLahir[i].length()-2, tanggalLahir[i].length()) + nipTglLahir;
+		}
+		
+		List<PegawaiModel> listPegawai = pegawaiDb.findByInstansiAndTanggalLahirAndTahunMasukOrderByNipAsc(pegawai.getInstansi(), pegawai.getTanggalLahir(), pegawai.getTahunMasuk());
+		int nomorPegawaiTemp = 0;
+		if (listPegawai.isEmpty()) {
+			nomorPegawaiTemp = 1;
+		} else {
+			PegawaiModel lastPegawai = listPegawai.get(listPegawai.size()-1);
+			nomorPegawaiTemp = Integer.valueOf(lastPegawai.getNip().substring(lastPegawai.getNip().length()-2)) + 1;
+		}
+		String nomorPegawai = (nomorPegawaiTemp < 10 ? "0" : "") + nomorPegawaiTemp;
+		
+		String nip = pegawai.getInstansi().getId() + nipTglLahir + pegawai.getTahunMasuk() + nomorPegawai;
+		
+		pegawai.setNip(nip);
+	}
+	
 	
 	
 	

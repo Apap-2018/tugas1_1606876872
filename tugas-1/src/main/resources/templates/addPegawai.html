@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<title>Add Pegawai</title>
 	
@@ -83,6 +86,7 @@
 					</div>
 				</div>
 			</div>
+			
 	</body>
 	
 	<script th:inline="javascript">
@@ -94,7 +98,7 @@
 	             idProvinsi : value,
 	             ajax : 'true'
 	         }, function(data) {
-	             var html = '';
+	             var html = '<option value="">--Pilih Instansi--</option>';
 	             var size = data.length;
 	             for ( var i = 0; i < size; i++) {
 	                 html += '<option value="' + data[i].id + '">' + data[i].nama + '</option>';
@@ -103,5 +107,8 @@
 	         });
 	     });
 	</script>
+	
+
+	
 	
 </html>
